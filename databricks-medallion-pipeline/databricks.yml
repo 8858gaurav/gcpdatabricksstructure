@@ -1,0 +1,107 @@
+bundle:
+  name: databricks-medallion-pipeline
+
+resources:
+  jobs:
+    JOB_via_GitHUb:
+      name: JOB via - GitHUb
+      # Hard stop the entire job if it runs for more than 2 hours (7200 seconds)
+      max_concurrent_runs: 1
+      timeout_seconds: 7200
+      # Add this Schedule configuration block
+      schedule:
+        quartz_cron_expression: "0 0 6 * * ?" # Runs every day at 6:00 AM UTC
+        timezone_id: "UTC"                     # Set your preferred timezone (e.g., "Asia/Kolkata")
+        pause_status: "UNPAUSED"               # "UNPAUSED" activates the schedule immediately upon deployment
+        # Seconds Minutes Hours Day-of-Month Month Day-of-Week
+      email_notifications:
+        on_failure:
+          - gauravmishra010@gmail.com
+        on_success: 
+          - gauravmishra010@gmail.com
+        on_duration_warning_threshold_exceeded:
+          - gauravmishra010@gmail.com 
+      health:
+        rules:
+          - metric: "RUN_DURATION_SECONDS"
+            op: "GREATER_THAN"
+            value: 3600  # 3600 seconds = 1 hour (Adjust this based on your pipeline's normal runtime)
+      tasks:
+        - task_key: Process_Customers
+          spark_python_task:
+            python_file: bronze/customers/customers.py
+            source: WORKSPACE
+          job_cluster_key: Gaurav_Cluster
+          max_retries: 2
+          min_retry_interval_millis: 300000 
+          retry_on_timeout: true
+
+        - task_key: Process_Orders
+          spark_python_task:
+            python_file: bronze/orders/orders.py
+            source: WORKSPACE
+          job_cluster_key: Gaurav_Cluster
+          max_retries: 2
+          min_retry_interval_millis: 300000 
+          retry_on_timeout: true
+
+        - task_key: process_bronze_customers
+          depends_on:
+            - task_key: Process_Customers
+          spark_python_task:
+            python_file: silver/customers/silver_processing_customers.py
+            source: WORKSPACE
+          job_cluster_key: Gaurav_Cluster
+          max_retries: 2
+          min_retry_interval_millis: 300000 
+          retry_on_timeout: true
+
+        - task_key: process_bronze_orders
+          depends_on:
+            - task_key: Process_Orders
+          spark_python_task:
+            python_file: silver/orders/silver_processing_orders.py
+            source: WORKSPACE
+          job_cluster_key: Gaurav_Cluster
+          max_retries: 2
+          min_retry_interval_millis: 300000 
+          retry_on_timeout: true
+
+        - task_key: process_bronze_gold
+          depends_on:
+            - task_key: process_bronze_customers
+            - task_key: process_bronze_orders
+          spark_python_task:
+            python_file: gold/gold_code.py
+            source: WORKSPACE
+          job_cluster_key: Gaurav_Cluster
+          max_retries: 2
+          min_retry_interval_millis: 300000 
+          retry_on_timeout: true
+
+      job_clusters:
+        - job_cluster_key: Gaurav_Cluster
+          new_cluster:
+            spark_version: 15.4.x-scala2.12
+            node_type_id: Standard_D4s_v3
+            num_workers: 0
+            
+            # Required Spark Configs for Single Node Clusters
+            spark_conf:
+              spark.databricks.cluster.profile: "singleNode"
+              spark.master: "local[*]"
+              spark.hadoop.fs.azure.account.key.misgauravstorageaccount.dfs.core.windows.net: "{{secrets/databricks-demo-scope/misgaurav-secret-scope}}"
+            
+            # Required Tags for Single Node Clusters
+            custom_tags:
+              ResourceClass: "SingleNode"
+
+            spark_env_vars:
+              PYSPARK_PYTHON: /databricks/python3/bin/python3
+            data_security_mode: SINGLE_USER
+            runtime_engine: PHOTON
+
+targets:
+  default:
+    workspace:
+      host: https://adb-7405605583082922.2.azuredatabricks.net  # (Ensure your host URL is kept here)
