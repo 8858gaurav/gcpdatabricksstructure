@@ -48,13 +48,12 @@ jobs:
           ls -F
           find . -name "databricks.yml"
 
-      - name: Bundle Deploy and Run
+      # REMOVED "bundle run" TO PREVENT ACCIDENTAL ACCELERATED PIPELINE RUNS
+      # The GCS file arrival trigger will now natively manage all executions.
+      - name: Bundle Deploy
         run: |
-          # Deploying the asset bundle creates the workspace files and updates the job definitions
+          # Deploys asset configuration updates and refreshes the file arrival listener
           databricks bundle deploy --target default
-          
-          # Running the bundle job via its resource key defined in databricks.yml
-          databricks bundle run JOB_via_GitHUb --target default
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
