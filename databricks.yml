@@ -21,7 +21,7 @@ resources:
       tasks:
         - task_key: Execute_Medallion_Notebook
           notebook_task:
-            notebook_path: /Workspace/Users/gauravmishra010@gmail.com/gcpdatabricksstructure/databricks-medallion-pipeline/medallion-notebook
+            notebook_path: /Workspace/Users/gauravmishra010@gmail.com/gcpdatabricksstructure/medallion-notebook
             source: WORKSPACE
           job_cluster_key: Gaurav_Cluster
           max_retries: 2
