@@ -71,3 +71,5 @@ give permission to the gcp default service principal account:
 service-326109237424@gs-project-accounts.iam.gserviceaccount.com:
 roles/pubsub.publisher
 
+========================================================================
+
