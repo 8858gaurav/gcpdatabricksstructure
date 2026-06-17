@@ -56,3 +56,18 @@ Go to your Repo Settings -> Secrets and variables -> Actions -> secrets tab -> N
 DATABRICKS_HOST:
 Go to your Repo Settings -> Secrets and variables -> Actions -> click on Variable tab ->  New Repository Variable -> paste your db worskpace link
 
+======================================================================
+
+give permission to the databricks service principal account:
+db-uc-credential-06f9g6iang-qc@uc-asias1.iam.gserviceaccount.com:
+Pub/Sub Admin
+Pub/Sub Editor
+Storage Admin
+Storage Object Admin
+
+=======================================================================
+
+give permission to the gcp default service principal account:
+service-326109237424@gs-project-accounts.iam.gserviceaccount.com:
+roles/pubsub.publisher
+
