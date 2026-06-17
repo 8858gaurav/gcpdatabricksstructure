@@ -8,8 +8,6 @@ resources:
       max_concurrent_runs: 1
       timeout_seconds: 7200
       
-      # 1. REMOVED SCHEDULE BLOCK -> ADDED FILE ARRIVAL TRIGGER
-      # Note: For GCP Databricks, the URL must target a Unity Catalog Volume or External Location path
       trigger:
         file_arrival:
           url: "gs://databricksfolder/raw/" 
@@ -19,16 +17,8 @@ resources:
           - gauravmishra010@gmail.com
         on_success: 
           - gauravmishra010@gmail.com
-        on_duration_warning_threshold_exceeded:
-          - gauravmishra010@gmail.com 
-      health:
-        rules:
-          - metric: "RUN_DURATION_SECONDS"
-            op: "GREATER_THAN"
-            value: 3600  
             
       tasks:
-        # 2. CONVERTED MULTIPLE PYTHON FILES TO YOUR SPECIFIC JUPYTER NOTEBOOK TASK
         - task_key: Execute_Medallion_Notebook
           notebook_task:
             notebook_path: /Workspace/Users/gauravmishra010@gmail.com/gcpdatabricksstructure/databricks-medallion-pipeline/medallion-notebook
@@ -44,22 +34,15 @@ resources:
             spark_version: 15.4.x-scala2.12
             node_type_id: Standard_D4s_v3
             num_workers: 0
-            
-            # Spark Configs for Single Node Clusters
             spark_conf:
               spark.databricks.cluster.profile: "singleNode"
               spark.master: "local[*]"
-            
             custom_tags:
               ResourceClass: "SingleNode"
-
-            spark_env_vars:
-              PYSPARK_PYTHON: /databricks/python3/bin/python3
             data_security_mode: SINGLE_USER
             runtime_engine: PHOTON
 
 targets:
   default:
     workspace:
-      # 3. UPDATED HOST TO YOUR CURRENT GCP WORKSPACE ID
-      host: https://8259565084791562.2.gcp.databricks.com
+      host: https://8259561418539021.1.gcp.databricks.com # <-- Update this target host string
