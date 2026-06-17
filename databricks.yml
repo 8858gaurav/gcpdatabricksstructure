@@ -32,7 +32,8 @@ resources:
         - job_cluster_key: Gaurav_Cluster
           new_cluster:
             spark_version: 15.4.x-scala2.12
-            node_type_id: Standard_D4s_v3
+            # 1. FIXED: Changed from Azure-based Standard_D4s_v3 to native GCP machine type
+            node_type_id: n2-standard-4 
             num_workers: 0
             spark_conf:
               spark.databricks.cluster.profile: "singleNode"
@@ -45,4 +46,4 @@ resources:
 targets:
   default:
     workspace:
-      host: https://8259561418539021.1.gcp.databricks.com # <-- Update this target host string
+      host: https://8259561418539021.1.gcp.databricks.com
