@@ -73,3 +73,9 @@ roles/pubsub.publisher
 
 ========================================================================
 
+how to create a new workspace on databricks by GCP - to work on on-demand cluster instead of serverless
+1. https://accounts.gcp.databricks.com - > click on Workspace -> create workspace -> 1) give the workspace name 2) select the region -> give your GCP project Id -> create workspace
+you'll get workspace link as : https://8259561418539021.1.gcp.databricks.com
+
+=========================================================================
+
