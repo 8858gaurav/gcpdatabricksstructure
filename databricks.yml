@@ -46,4 +46,4 @@ resources:
 targets:
   default:
     workspace:
-      host: https://8259561418539021.1.gcp.databricks.com
+      host: https://8259558609465663.3.gcp.databricks.com

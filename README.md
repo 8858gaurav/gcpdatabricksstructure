@@ -49,12 +49,18 @@ Where it's running : Github server VM, this serves also run our unit test cases:
 
 =======================================================================================================================================
 how to Get Databricks PAT:
+DATABRICKS_TOKEN = 
 go to DB UI -> Settings -> Developer -> Acess token -> manage -> generate new token
+
+DATABRICKS_HOST = https://8259558609465663.3.gcp.databricks.com (db workspace link)
+
 
 DATABRICKS_TOKEN:
 Go to your Repo Settings -> Secrets and variables -> Actions -> secrets tab -> New repository secret -> DATABRICKS_TOKEN -> paste your db personal access token
 DATABRICKS_HOST:
 Go to your Repo Settings -> Secrets and variables -> Actions -> click on Variable tab ->  New Repository Variable -> paste your db worskpace link
+
+FYI: databricks token and databricks host is uniques for every workspace on databricks 
 
 ======================================================================
 
@@ -75,7 +81,14 @@ roles/pubsub.publisher
 
 how to create a new workspace on databricks by GCP - to work on on-demand cluster instead of serverless
 1. https://accounts.gcp.databricks.com - > click on Workspace -> create workspace -> 1) give the workspace name 2) select the region -> give your GCP project Id -> create workspace
-you'll get workspace link as : https://8259561418539021.1.gcp.databricks.com
+you'll get workspace link as : https://8259558609465663.3.gcp.databricks.com
 
 =========================================================================
+
+when you create a ws on databricks based on GCP enviroments, you'll see 3 buckets on GCP:
+databricks-8259558609465663
+databricks-8259558609465663-system
+databricks-8259558609465663-unitycatalog
+
+==================================================================
 
