@@ -12,7 +12,7 @@ resources:
       # Note: For GCP Databricks, the URL must target a Unity Catalog Volume or External Location path
       trigger:
         file_arrival:
-          url: "gs://databricksfolder/raw" 
+          url: "gs://databricksfolder/raw/" 
 
       email_notifications:
         on_failure:
