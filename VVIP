@@ -3,3 +3,6 @@ we are creating bronze, silver & gold table via delta format table techniques wi
 before reading the raw file. 
 
 also, TBLPROPERTIES(delta.enableChangeDataFeed = true); is applicable here 
+
+In Delta Lake / Medallion architecture workflows (such as PySpark pipelines on Databricks/GCP), 
+creating empty DataFrames for Silver and Gold layers without creating one for the Bronze layer is a standard design pattern.
