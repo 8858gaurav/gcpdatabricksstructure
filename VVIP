@@ -1,0 +1,5 @@
+here, we are just reading the file from different gcs bucket, then copy the contents into a brone table, & so on.
+we are creating bronze, silver & gold table via delta format table techniques with TBLPROPERTIES(delta.enableChangeDataFeed = true),
+before reading the raw file. 
+
+also, TBLPROPERTIES(delta.enableChangeDataFeed = true); is applicable here 
